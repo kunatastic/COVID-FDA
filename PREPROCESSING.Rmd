@@ -1,0 +1,81 @@
+---
+title: "COVID ANALYSIS"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("lubridate")
+```
+
+
+```{r}
+setwd("C:\\Users\\LENOVO\\Downloads\\DA_PROJECT")
+df = read.csv("covid.csv")
+df
+```
+## Analyzing data
+
+```{r}
+View(df)
+```
+
+## Number of columns with empty values
+
+```{r}
+colSums(is.na(df))
+
+```
+## Removing unnecessary columns
+
+1. converting string dates to date formats
+2. sex labels ->female(1) male(2)                     --done
+3. patient type ->outpatient(1), inpatient(2)         --done
+4. mortality from date died                           --done
+5. diseases -> yes(1) no(2) NA(97,98,99)              --done
+6. covid result -> positive(1) negative(2) awaiting(3)--done
+7. icu -> yes(1) no(2) na(else)                       --done
+
+```{r}
+data = df
+data$sex <- ifelse(data$sex == "1", "Female", ifelse(data$sex == "2", "Male", NA))
+data$patient_type <- ifelse(data$patient_type == "1", "Outpatient", ifelse(data$patient_type == "2", "Inpatient", NA))
+data$intubed <- ifelse(data$intubed == "1", "Yes", ifelse(data$intubed == "2", "No", NA))
+data$pneumonia <- ifelse(data$pneumonia == "1", "Yes", ifelse(data$pneumonia == "2", "No", NA))
+data$pregnancy<- ifelse(data$pregnancy == "1", "Yes", ifelse(data$pregnancy == "2", "No", NA))
+data$diabetes<- ifelse(data$diabetes == "1", "Yes", ifelse(data$diabetes == "2", "No", NA))
+data$copd <- ifelse(data$copd == "1", "Yes", ifelse(data$copd == "2", "No", NA))
+data$asthma <- ifelse(data$asthma == "1", "Yes", ifelse(data$asthma == "2", "No", NA))
+data$inmsupr <- ifelse(data$inmsupr == "1", "Yes", ifelse(data$inmsupr == "2", "No", NA))
+data$hypertension <- ifelse(data$hypertension == "1", "Yes", ifelse(data$hypertension == "2", "No", NA))
+data$other_disease <- ifelse(data$other_disease == "1", "Yes", ifelse(data$other_disease == "2", "No", NA))
+data$cardiovascular <- ifelse(data$cardiovascular == "1", "Yes", ifelse(data$cardiovascular == "2", "No", NA))
+data$obesity<- ifelse(data$obesity == "1", "Yes", ifelse(data$obesity == "2", "No", NA))
+data$renal_chronic <- ifelse(data$renal_chronic == "1", "Yes", ifelse(data$renal_chronic == "2", "No", NA))
+data$tobacco <- ifelse(data$tobacco == "1", "Yes", ifelse(data$tobacco == "2", "No", NA))
+data$contact_other <- ifelse(data$contact_other_covid == "1", "Yes", ifelse(data$contact_other_covid == "2", "No", NA))
+data$covid_res<- ifelse(data$covid_res == "1", "Positive", ifelse(data$covid_res == "2", "Negative", "Awaiting Results"))
+data$icu<- ifelse(data$icu == "1", "Yes", ifelse(data$icu == "2", "No", NA))
+data
+```
+
+```{r}
+data$mortality <- ifelse(data$date_died == "9999-99-99", "Alive", "Died")
+data$entry_date <- dmy(data$entry_date)
+data$date_died <- dmy(data$date_died)
+data$date_symptoms <- dmy(data$date_symptoms)
+data
+```
+
+```{r}
+# write.csv(data,"preprocessed_data.csv", row.names = TRUE)
+```
+
+```{r}
+pdata = read.csv("preprocessed_data.csv")
+pdata
+```
+
