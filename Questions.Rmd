@@ -1,0 +1,131 @@
+---
+title: "Questions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+df = read.csv(".\\Dataset\\preprocessed_data.csv")
+df
+```
+
+## QUESTION 2
+
+Is this time of pandemic a bad period for couples to consider about pregnancy option, specific to the effect of COVID-19 on pregnant women?
+
+```{r}
+pregnant = data[data$pregnancy == "Yes",]
+pregnant = pregnant[!is.na(pregnant$covid_res),]
+ggplot(pregnant,aes(x=covid_res,fill = "violet"))+geom_bar()+xlab("Pregnant")+ggtitle("Pregnant women Covid result")
+ggplot(pregnant,aes(x=mortality,fill="violet"))+geom_bar()+xlab("Mortality")+ggtitle("Pregnant women died")
+pregnant_positive = pregnant[pregnant$covid_res == "Positive",]
+ggplot(pregnant_positive,aes(x=mortality,fill="violet"))+geom_bar()+xlab("Mortality")+ggtitle("Pregnant women corona positive and wdied")
+```
+
+# Question3
+Impact of Covid on respiratory diseases.
+
+
+The respiratory diseases in the dataset are Pneumonia, Asthma, COPD (Chronic obstructive pulmonary disease), 
+```{r}
+respiratory = df[,c(9,13,14,23)]
+respiratory
+
+table(respiratory$covid_res, respiratory$pneumonia)
+pneumonia = chisq.test(respiratory$covid_res, respiratory$pneumonia)
+print(paste("Pneumonia correlation with covid results",sqrt(pneumonia$statistic/nrow(respiratory))))
+
+table(respiratory$covid_res, respiratory$asthma)
+asthma = chisq.test(respiratory$covid_res, respiratory$asthma)
+print(paste("Asthma correlation with covid results",sqrt(asthma$statistic/nrow(respiratory))))
+
+table(respiratory$covid_res, respiratory$copd)
+copd = chisq.test(respiratory$covid_res, respiratory$copd)
+print(paste("COPD correlation with covid results",sqrt(copd$statistic/nrow(respiratory))))
+```
+
+# Question5
+One of the most challenging problem plaguing the world is Obesity and Hypertension, does these factors have any impact on the COVID-19 test result?
+
+```{r}
+Q5 = df[,c(16,19,23)]
+Q5
+
+table(respiratory$covid_res, respiratory$pneumonia)
+hypertension = chisq.test(Q5$covid_res, Q5$hypertension)
+print(paste("Hypertension correlation with covid results",sqrt(hypertension$statistic/nrow(Q5))))
+
+table(respiratory$covid_res, respiratory$asthma)
+Obesity = chisq.test(respiratory$covid_res, Q5$obesity)
+print(paste("Obesity correlation with covid results",sqrt(Obesity$statistic/nrow(respiratory))))
+```
+
+# Question 7
+
+```{r}
+
+
+df <- read.csv(".\\Dataset\\preprocessed_data.csv")
+
+df <- df[!is.na(df$pneumonia),]
+df <- df[!is.na(df$pregnancy),]
+df <- df[!is.na(df$diabetes),]
+df <- df[!is.na(df$copd),]
+df <- df[!is.na(df$asthma),]
+df <- df[!is.na(df$inmsupr),]
+df <- df[!is.na(df$hypertension),]
+df <- df[!is.na(df$other_disease),]
+df <- df[!is.na(df$cardiovascular),]
+df <- df[!is.na(df$obesity),]
+df <- df[!is.na(df$renal_chronic),]
+df <- df[!is.na(df$tobacco),]
+df <- df[!is.na(df$contact_other),]
+
+df$pneumonia <- ifelse(df$pneumonia == "Yes", 1, ifelse(df$pneumonia == "No", 0, NA))
+df$pregnancy<- ifelse(df$pregnancy == "Yes", 1, ifelse(df$pregnancy == "No", 0, NA))
+df$diabetes<- ifelse(df$diabetes == "Yes", 1, ifelse(df$diabetes == "No", 0, NA))
+df$copd <- ifelse(df$copd == "Yes", 1, ifelse(df$copd == "No", 0, NA))
+df$asthma <- ifelse(df$asthma == "Yes", 1, ifelse(df$asthma == "No", 0, NA))
+df$inmsupr <- ifelse(df$inmsupr == "Yes", 1, ifelse(df$inmsupr == "No", 0, NA))
+df$hypertension <- ifelse(df$hypertension == "Yes", 1, ifelse(df$hypertension == "No", 0, NA))
+df$other_disease <- ifelse(df$other_disease == "Yes", 1, ifelse(df$other_disease == "No", 0, NA))
+df$cardiovascular <- ifelse(df$cardiovascular == "Yes", 1, ifelse(df$cardiovascular == "No", 0, NA))
+df$obesity<- ifelse(df$obesity == "Yes", 1, ifelse(df$obesity == "No", 0, NA))
+df$renal_chronic <- ifelse(df$renal_chronic == "Yes", 1, ifelse(df$renal_chronic == "No", 0, NA))
+df$tobacco <- ifelse(df$tobacco == "Yes", 1, ifelse(df$tobacco == "No", 0, NA))
+df$contact_other <- ifelse(df$contact_other_covid == "Yes", 1, ifelse(df$contact_other_covid == "No", 0, NA))
+
+
+df$other_factor = c(df$pneumonia,df$pregnancy,df$diabetes,df$copd,df$asthma,df$inmsupr,df$hypertension, df$other_disease, df$cardiovascular, df$obesity, df$renal_chronic,df$tobacco, df$contact_other_covid)
+df
+
+```
+
+
+
+```{r}
+df$other_factors <- c(df$pneumonia,df$pregnancy,df$diabetes,df$copd,df$asthma,df$inmsupr,df$hypertension, df$other_disease, df$cardiovascular, df$obesity, df$renal_chronic,df$tobacco, df$contact_other_covid)
+```
+
+
+## QUESTION 9 and 10
+
+```{r}
+data9 = data
+data9$difference = difftime(data$entry_date,data$date_symptoms)
+
+library(ltm)
+data9_intubed = data9[!is.na(data9$intubed),]
+data9_icu = data9[!is.na(data9$icu),]
+
+biserial.cor(as.integer(data9_intubed$difference) , data9_intubed$intubed) 
+biserial.cor(as.integer(data9_icu$difference) , data9_icu$icu)
+```
+
+```{r}
+boxplot((data9$difference/(60*60*24)) ~ data9$intubed, xlab="Intubed", ylab="Time taken to admit (in days)")
+boxplot((data9$difference/(60*60*24)) ~ data9$icu, xlab="Admitted in ICU", ylab="Time taken to admit (in days)")
+```
