@@ -12,6 +12,24 @@ df = read.csv(".\\Dataset\\preprocessed_data.csv")
 df
 ```
 
+# QUESTION 1
+```{r}
+data1 = df
+maleNumPos = nrow(data1[data1$sex=='Male' & data1$covid_res=="Positive",])
+femaleNumPos = nrow(data1[data1$sex=='Female'& data1$covid_res=="Positive",])
+maleDeath = nrow(data1[data1$sex=='Male' & data1$mortality=="Died"& data1$covid_res=="Positive",])
+femaleDeath = nrow(data1[data1$sex=='Female' & data1$mortality=="Died" & data1$covid_res=="Positive",])
+
+maleDeath/maleNumPos
+femaleDeath/femaleNumPos
+
+maleNum = nrow(data1[data1$sex=='Male' ,])
+femaleNum = nrow(data[data1$sex=='Female',])
+
+barplot(c(maleNum,maleNumPos,maleDeath,femaleNum,femaleNumPos,femaleDeath), names.arg = c("Total Males", "Cov +ve Male", "Cov +ve Male Death","Total females", "Cov +ve female", "Cov +ve female Death"), main = "Male vs Female Data", horiz = T, col = c("green","orange", "red"))
+```
+
+
 ## QUESTION 2
 
 Is this time of pandemic a bad period for couples to consider about pregnancy option, specific to the effect of COVID-19 on pregnant women?
@@ -47,6 +65,57 @@ copd = chisq.test(respiratory$covid_res, respiratory$copd)
 print(paste("COPD correlation with covid results",sqrt(copd$statistic/nrow(respiratory))))
 ```
 
+# Question 4
+```{r}
+names(df)
+```
+
+```{r}
+diseases <- df[,c(9,12,13,14,15,16,17,18,19,20)] 
+names(diseases)
+head(diseases)
+```
+
+```{r}
+library(tidyr)
+```
+
+```{r}
+diseases <- drop_na(diseases)
+```
+
+```{r}
+dim(diseases)
+```
+
+```{r}
+table(is.na(diseases))
+```
+
+```{r}
+cor_values <- matrix(nrow=10, ncol=10)
+for(i in 1:10){
+  for(j in 1:10){
+     y = unclass(chisq.test(diseases[,i],diseases[,j]))[3]
+    #print(y$p.value)
+    cor_values[i,j] = y
+    cor_values = matrix(cor_values, nrow=10, ncol=10)
+  }
+}
+```
+
+```{r}
+names(diseases)
+```
+
+```{r}
+rownames(cor_values) <- c("pneumonia", "diabetes", "copd", "asthma", "inmsupr", "hypertension", "other_disease", "cardiovascular", "obesity", "renal_chronic")
+
+colnames(cor_values) <- c("pneumonia", "diabetes", "copd", "asthma", "inmsupr", "hypertension", "other_disease", "cardiovascular", "obesity", "renal_chronic")
+cor_values
+```
+
+
 # Question5
 One of the most challenging problem plaguing the world is Obesity and Hypertension, does these factors have any impact on the COVID-19 test result?
 
@@ -63,12 +132,52 @@ Obesity = chisq.test(respiratory$covid_res, Q5$obesity)
 print(paste("Obesity correlation with covid results",sqrt(Obesity$statistic/nrow(respiratory))))
 ```
 
+
+# Question 6
+```{r}
+data6 = df[!is.na(df$age),]
+data6 = data6[!is.na(data6$icu),]
+data6 = data6[!is.na(data6$mortality),]
+data6 = data6[!is.na(data6$intubed),]
+
+range(data6$age)
+
+dt0_20 = data6[data6$age<=20,]
+dt20_40 = data6[data6$age>20 & data6$age>=40,]
+dt40_60 = data6[data6$age>40 & data6$age<=60,]
+dt60_80 = data6[data6$age>60 & data6$age<=80,]
+dt80_100 = data6[data6$age>80 & data6$age<=100,]
+dt100_120 = data6[data6$age>100 & data6$age<=120,]
+
+pos0_20 = nrow(dt0_20[dt0_20$covid_res=="Positive",])
+pos20_40 = nrow(dt20_40[dt20_40$covid_res=="Positive",])
+pos40_60 = nrow(dt40_60[dt40_60$covid_res=="Positive",])
+pos60_80 = nrow(dt60_80[dt60_80$covid_res=="Positive",])
+pos80_100 = nrow(dt80_100[dt80_100$covid_res=="Positive",])
+pos100_120 = nrow(dt100_120[dt100_120$covid_res=="Positive",])
+
+pos0_20/nrow(dt0_20)
+pos20_40/nrow(dt20_40)
+pos40_60/nrow(dt40_60)
+pos60_80/nrow(dt60_80)
+pos80_100/nrow(dt80_100)
+pos100_120/nrow(dt100_120)
+```
+```{r}
+ggplot(data6, aes(x = mortality, y = age, fill = mortality)) + geom_boxplot() + scale_fill_brewer(palette="Pastel2") + xlab("State")
+
+ggplot(data6, aes(x = intubed, y = age, fill = intubed)) + geom_boxplot() + scale_fill_brewer(palette="Pastel2") + xlab("Intubed")
+
+ggplot(data6, aes(x = icu, y = age, fill = icu)) + geom_boxplot() + scale_fill_brewer(palette="Pastel2") + xlab("ICU")
+```
+
+
 # Question 7
 
 ```{r}
 
 
-df <- read.csv(".\\Dataset\\preprocessed_data.csv")
+df <- read.csv("Dataset\\preprocessed_data.csv")
 
 df <- df[!is.na(df$pneumonia),]
 df <- df[!is.na(df$pregnancy),]
