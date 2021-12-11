@@ -1,0 +1,45 @@
+---
+title: "Analysis"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library("ggplot2")
+library("lubridate")
+```
+
+
+```{r}
+setwd("C:\\Users\\LENOVO\\Downloads\\DA_PROJECT")
+df = read.csv("preprocessed_data.csv")
+df
+```
+
+```{r}
+data = df
+data$entry_date <- ymd(data$entry_date)
+data$date_died <- ymd(data$date_died)
+data$date_symptoms <- ymd(data$date_symptoms)
+data
+```
+## QUESTION 2
+
+```{r}
+pregnant = data[data$pregnancy == "Yes",]
+pregnant = pregnant[!is.na(pregnant$covid_res),]
+ggplot(pregnant,aes(x=covid_res,fill = "violet"))+geom_bar()+xlab("Pregnant")+ggtitle("Pregnant women Covid result")
+
+```
+```{r}
+ggplot(pregnant,aes(x=mortality,fill="violet"))+geom_bar()+xlab("Mortality")+ggtitle("Pregnant women died")
+```
+
+```{r}
+pregnant_positive = pregnant[pregnant$covid_res == "Positive",]
+ggplot(pregnant_positive,aes(x=mortality,fill="violet"))+geom_bar()+xlab("Mortality")+ggtitle("Pregnant women corona positive and wdied")
+```
+
