@@ -12,7 +12,18 @@ df = read.csv(".\\Dataset\\preprocessed_data.csv")
 df
 ```
 
+## QUESTION 2
 
+Is this time of pandemic a bad period for couples to consider about pregnancy option, specific to the effect of COVID-19 on pregnant women?
+
+```{r}
+pregnant = data[data$pregnancy == "Yes",]
+pregnant = pregnant[!is.na(pregnant$covid_res),]
+ggplot(pregnant,aes(x=covid_res,fill = "violet"))+geom_bar()+xlab("Pregnant")+ggtitle("Pregnant women Covid result")
+ggplot(pregnant,aes(x=mortality,fill="violet"))+geom_bar()+xlab("Mortality")+ggtitle("Pregnant women died")
+pregnant_positive = pregnant[pregnant$covid_res == "Positive",]
+ggplot(pregnant_positive,aes(x=mortality,fill="violet"))+geom_bar()+xlab("Mortality")+ggtitle("Pregnant women corona positive and wdied")
+```
 
 # Question3
 Impact of Covid on respiratory diseases.
@@ -94,10 +105,27 @@ df
 ```
 
 
+
 ```{r}
 df$other_factors <- c(df$pneumonia,df$pregnancy,df$diabetes,df$copd,df$asthma,df$inmsupr,df$hypertension, df$other_disease, df$cardiovascular, df$obesity, df$renal_chronic,df$tobacco, df$contact_other_covid)
 ```
 
 
+## QUESTION 9 and 10
 
+```{r}
+data9 = data
+data9$difference = difftime(data$entry_date,data$date_symptoms)
 
+library(ltm)
+data9_intubed = data9[!is.na(data9$intubed),]
+data9_icu = data9[!is.na(data9$icu),]
+
+biserial.cor(as.integer(data9_intubed$difference) , data9_intubed$intubed) 
+biserial.cor(as.integer(data9_icu$difference) , data9_icu$icu)
+```
+
+```{r}
+boxplot((data9$difference/(60*60*24)) ~ data9$intubed, xlab="Intubed", ylab="Time taken to admit (in days)")
+boxplot((data9$difference/(60*60*24)) ~ data9$icu, xlab="Admitted in ICU", ylab="Time taken to admit (in days)")
+```
