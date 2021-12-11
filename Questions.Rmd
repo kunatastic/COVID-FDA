@@ -175,8 +175,6 @@ ggplot(data6, aes(x = icu, y = age, fill = icu)) + geom_boxplot() + scale_fill_b
 # Question 7
 
 ```{r}
-
-
 df <- read.csv("Dataset\\preprocessed_data.csv")
 
 df <- df[!is.na(df$pneumonia),]
@@ -213,20 +211,15 @@ df
 ```
 
 
-
-```{r}
-df$wow = list(c(df$pneumonia,df$pregnancy,df$diabetes,df$copd,df$asthma,df$inmsupr,df$hypertension, df$other_disease, df$cardiovascular, df$obesity, df$renal_chronic,df$tobacco, df$contact_other_covid))
-df
-```
-
-
-<<<<<<< HEAD
 # Question 8
 
 ```{r}
 percentage = nrow(df[df$icu=='Yes' & df$other_factors == 13,])
 print(percentage/nrow(df)*100)
-=======
+```
+
+
+
 ## QUESTION 9 and 10
 
 ```{r}
@@ -239,7 +232,6 @@ data9_icu = data9[!is.na(data9$icu),]
 
 biserial.cor(as.integer(data9_intubed$difference) , data9_intubed$intubed) 
 biserial.cor(as.integer(data9_icu$difference) , data9_icu$icu)
->>>>>>> b1580f46f63d8b237ecb12c6cbdfcdd51efdc46f
 ```
 
 ```{r}
