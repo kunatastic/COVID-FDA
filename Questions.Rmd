@@ -87,17 +87,22 @@ df$renal_chronic <- ifelse(df$renal_chronic == "Yes", 1, ifelse(df$renal_chronic
 df$tobacco <- ifelse(df$tobacco == "Yes", 1, ifelse(df$tobacco == "No", 0, NA))
 df$contact_other <- ifelse(df$contact_other_covid == "Yes", 1, ifelse(df$contact_other_covid == "No", 0, NA))
 
-
-df$other_factor = c(df$pneumonia,df$pregnancy,df$diabetes,df$copd,df$asthma,df$inmsupr,df$hypertension, df$other_disease, df$cardiovascular, df$obesity, df$renal_chronic,df$tobacco, df$contact_other_covid)
+df$other_factors = df$pneumonia+df$pregnancy+df$diabetes+df$copd+df$asthma+df$inmsupr+df$hypertension+ df$other_disease+ df$cardiovascular+ df$obesity+ df$renal_chronic+df$tobacco+ df$contact_other_covid
 df
 
 ```
 
 
 ```{r}
-df$other_factors <- c(df$pneumonia,df$pregnancy,df$diabetes,df$copd,df$asthma,df$inmsupr,df$hypertension, df$other_disease, df$cardiovascular, df$obesity, df$renal_chronic,df$tobacco, df$contact_other_covid)
+df$wow = list(c(df$pneumonia,df$pregnancy,df$diabetes,df$copd,df$asthma,df$inmsupr,df$hypertension, df$other_disease, df$cardiovascular, df$obesity, df$renal_chronic,df$tobacco, df$contact_other_covid))
+df
 ```
 
 
+# Question 8
 
+```{r}
+percentage = nrow(df[df$icu=='Yes' & df$other_factors == 13,])
+print(percentage/nrow(df)*100)
+```
 
