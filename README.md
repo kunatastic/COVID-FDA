@@ -17,6 +17,8 @@
 2. PREPROCESSING.Rmd - contains the basic prerpocessing done on the dataset
 3. QUESTIONWISE_ANALYSIS.Rmd - contains the solution for 10 questions
 4. Team Exponential Report.pdf - contains the report for the project
+5. Task Allocation - contains division of tasks
+6. Gantt Chart - Timeline of start and end of tasks
 
 ## References
 
