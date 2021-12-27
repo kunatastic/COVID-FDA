@@ -16,7 +16,7 @@ df
 ```{r}
 data1 = df
 maleNumPos = nrow(data1[data1$sex=='Male' & data1$covid_res=="Positive",])
-femaleNumPos = nrow(data1[data1$sex=='Female'& data1$covid_res=="Positive",])
+femaleNumPos = nrow(data1[data1$sex=='Female' & data1$covid_res=="Positive",])
 maleDeath = nrow(data1[data1$sex=='Male' & data1$mortality=="Died"& data1$covid_res=="Positive",])
 femaleDeath = nrow(data1[data1$sex=='Female' & data1$mortality=="Died" & data1$covid_res=="Positive",])
 
@@ -24,9 +24,78 @@ maleDeath/maleNumPos
 femaleDeath/femaleNumPos
 
 maleNum = nrow(data1[data1$sex=='Male' ,])
-femaleNum = nrow(data[data1$sex=='Female',])
+femaleNum = nrow(data1[data1$sex=='Female',])
 
 barplot(c(maleNum,maleNumPos,maleDeath,femaleNum,femaleNumPos,femaleDeath), names.arg = c("Total Males", "Cov +ve Male", "Cov +ve Male Death","Total females", "Cov +ve female", "Cov +ve female Death"), main = "Male vs Female Data", horiz = T, col = c("green","orange", "red"))
+
+maleDeathDF = data1[data1$sex=='Male' & data1$mortality=="Died"& data1$covid_res=="Positive",]
+femaleDeathDF = data1[data1$sex=='Female' & data1$mortality=="Died"& data1$covid_res=="Positive",]
+
+ femaleDeathDF = femaleDeathDF[,c(8:24)]
+  maleDeathDF = maleDeathDF[,c(8:24)]
+  
+  summary(maleDeathDF)
+  summary(femaleDeathDF)
+  
+  #age not a factor as mean & median for both genders are close
+  #dropping factors such as age, covid res and contact other covid
+  
+ # maleDeathDF = maleDeathDF[,-c(3,15,16)]
+  maleDeathDF = subset(maleDeathDF, select = -c(3,15,16))
+  femaleDeathDF = subset(femaleDeathDF, select = -c(3,15,16))
+  
+
+ pie(xtabs(~intubed, data = maleDeathDF) / nrow(maleDeathDF) * 100, main = "Male Intubed")
+ pie(xtabs(~intubed, data = femaleDeathDF) / nrow(femaleDeathDF) * 100, main = "Female Intubed")
+ #no significant difference
+ 
+ pie( xtabs(~pneumonia, data = maleDeathDF) / nrow(maleDeathDF) * 100, main = "Male Pneumoia")
+ pie( xtabs(~pneumonia, data = femaleDeathDF) / nrow(femaleDeathDF) * 100, main = "Female Pneumoia")
+ #no significant difference
+ 
+ pie(xtabs(~diabetes, data = maleDeathDF) / nrow(maleDeathDF) * 100, main = "Male Diabetes")
+ pie(xtabs(~diabetes, data = femaleDeathDF) / nrow(femaleDeathDF) * 100, main = "Female Diabetes")
+ #no significant difference
+ 
+ pie( xtabs(~copd, data = maleDeathDF) / nrow(maleDeathDF) * 100 , main = "Male Diabetes") 
+ pie( xtabs(~copd, data = femaleDeathDF) / nrow(femaleDeathDF) * 100, main =  "Female Diabetes") 
+ #no significant difference
+ 
+ pie( xtabs(~asthma, data = maleDeathDF) / nrow(maleDeathDF) * 100 , main = "Male Asthma") 
+ pie( xtabs(~asthma, data = femaleDeathDF) / nrow(femaleDeathDF) * 100 , main = "Female Asthma") 
+ #no significant difference
+ 
+ pie( xtabs(~inmsupr, data = maleDeathDF) / nrow(maleDeathDF) * 100, main = "Male inmsupr" ) 
+ pie( xtabs(~inmsupr, data = femaleDeathDF) / nrow(femaleDeathDF) * 100, main = "Female inmsupr" ) 
+ #no significant difference
+ 
+ pie( xtabs(~hypertension, data = maleDeathDF) / nrow(maleDeathDF) * 100, main = "Male hypertension" ) 
+ pie( xtabs(~hypertension, data = femaleDeathDF) / nrow(femaleDeathDF) * 100 , main = "Female hypertension") 
+ #more hypertension in women
+ 
+ pie( xtabs(~other_disease, data = maleDeathDF) / nrow(maleDeathDF) * 100, main = "Male Other Disease" ) 
+ pie( xtabs(~other_disease, data = femaleDeathDF) / nrow(femaleDeathDF) * 100, main = "Female Other Disease" ) 
+ #no significant difference
+ 
+ pie( xtabs(~cardiovascular, data = maleDeathDF) / nrow(maleDeathDF) * 100 , main = "Male Cardiovascular")
+ pie( xtabs(~cardiovascular, data = femaleDeathDF) / nrow(femaleDeathDF) * 100, main = "Female Cardiovascular" )
+ #no significant difference
+ 
+ pie( xtabs(~obesity, data = maleDeathDF) / nrow(maleDeathDF) * 100 , main = "Male Obesity") 
+ pie( xtabs(~obesity, data = femaleDeathDF) / nrow(femaleDeathDF) * 100 , main = "Female Obesity") 
+ #more obesity in women
+ 
+ pie( xtabs(~renal_chronic, data = maleDeathDF) / nrow(maleDeathDF) * 100, main = "Male renal chronic" )
+ pie( xtabs(~renal_chronic, data = femaleDeathDF) / nrow(femaleDeathDF) * 100 , main = "Female Chronic") 
+ #no significant difference
+ 
+ pie( xtabs(~tobacco, data = maleDeathDF) / nrow(maleDeathDF) * 100 , main = "Male tobacco")
+ pie( xtabs(~tobacco, data = femaleDeathDF) / nrow(femaleDeathDF) * 100 , main = "Female Tobacco") 
+ #twice in men
+ 
+ pie( xtabs(~icu, data = maleDeathDF) / nrow(maleDeathDF) * 100, main = "Male ICU" )
+ pie( xtabs(~icu, data = femaleDeathDF) / nrow(femaleDeathDF) * 100 , main = "Female ICU") 
+ #no significant difference
 ```
 
 
