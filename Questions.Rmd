@@ -162,13 +162,16 @@ pos40_60/nrow(dt40_60)
 pos60_80/nrow(dt60_80)
 pos80_100/nrow(dt80_100)
 pos100_120/nrow(dt100_120)
-```
-```{r}
-ggplot(data6, aes(x = mortality, y = age, fill = mortality)) + geom_boxplot() + scale_fill_brewer(palette="Pastel2") + xlab("State")
 
-ggplot(data6, aes(x = intubed, y = age, fill = intubed)) + geom_boxplot() + scale_fill_brewer(palette="Pastel2") + xlab("Intubed")
+library(ggplot2)
+
+data6 = data6[data6$covid_res == "Positive", ]
+ggplot(data6, aes(x = mortality, y = age, fill = mortality)) + geom_boxplot() + scale_fill_brewer(palette="Pastel2") + xlab("State") +
+
+ggplot(data6, aes(x = intubed, y = age, fill = intubed)) + geom_boxplot() + scale_fill_brewer(palette="Pastel2") + xlab("Intubed") +
 
 ggplot(data6, aes(x = icu, y = age, fill = icu)) + geom_boxplot() + scale_fill_brewer(palette="Pastel2") + xlab("ICU")
+
 ```
 
 
