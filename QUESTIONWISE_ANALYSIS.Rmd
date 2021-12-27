@@ -19,22 +19,6 @@ df
 ```
 
 # QUESTION 1
-```{r}
-data1 = df
-maleNumPos = nrow(data1[data1$sex=='Male' & data1$covid_res=="Positive",])
-femaleNumPos = nrow(data1[data1$sex=='Female'& data1$covid_res=="Positive",])
-maleDeath = nrow(data1[data1$sex=='Male' & data1$mortality=="Died"& data1$covid_res=="Positive",])
-femaleDeath = nrow(data1[data1$sex=='Female' & data1$mortality=="Died" & data1$covid_res=="Positive",])
-
-maleDeath/maleNumPos
-femaleDeath/femaleNumPos
-
-maleNum = nrow(data1[data1$sex=="Male" ,])
-femaleNum = nrow(data1[data1$sex=="Female",])
-
-barplot(c(maleNum,maleNumPos,maleDeath,femaleNum,femaleNumPos,femaleDeath), names.arg = c("Total Males", "Cov +ve Male", "Cov +ve Male Death","Total females", "Cov +ve female", "Cov +ve female Death"), main = "Male vs Female Data", horiz = T, col = c("green","orange", "red"))
-```
-
 
 ```{r}
 data1 = df
@@ -260,10 +244,6 @@ ggplot(data6, aes(x = intubed, y = age, fill = intubed)) + geom_boxplot() + scal
 
 ggplot(data6, aes(x = icu, y = age, fill = icu)) + geom_boxplot() + scale_fill_brewer(palette="Pastel2") + xlab("ICU")
 
-library(dplyr)
-
-nrow(distinct(data6,id))
-nrow(data6)
 ```
 
 
