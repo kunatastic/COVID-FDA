@@ -1,7 +1,7 @@
 # COVID-19 ANALYSIS ON MEXICAN DATASET
 
 ## Team Details
----
+
 ### Team Exponential
 ### Team members:
 
@@ -9,6 +9,8 @@
 2. Kunal Kumar Jha - 19BCE1212
 3. Tejas Vaichole - 19BCE1295
 4. Vedang Sawarkar - 19BCE1303
+
+---
 
 ## Description of files
 1. TASK_FOR_PROJECT_REVIEW1.pdf - contains the questions assigned for the project
